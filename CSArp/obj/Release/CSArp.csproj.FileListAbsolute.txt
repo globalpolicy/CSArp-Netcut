@@ -1,0 +1,13 @@
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\CSArp.exe.config
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\CSArp.exe
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\CSArp.pdb
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\PacketDotNet.dll
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\SharpPcap.dll
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\PacketDotNet.xml
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\SharpPcap.xml
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\bin\Release\SharpPcap.dll.config
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\obj\Release\CSArp.Form1.resources
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\obj\Release\CSArp.Properties.Resources.resources
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\obj\Release\CSArp.csproj.GenerateResource.Cache
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\obj\Release\CSArp.exe
+C:\Users\s0ft\Desktop\CSArp\CSArp\CSArp\obj\Release\CSArp.pdb

