@@ -8,6 +8,7 @@ using SharpPcap;
 using PacketDotNet;
 using System.Net.NetworkInformation;
 using System.Threading;
+using System.Diagnostics;
 
 namespace CSArp
 {
@@ -19,7 +20,6 @@ namespace CSArp
 
         public static void Disconnect(Dictionary<IPAddress, PhysicalAddress> targetlist, IPAddress gatewayipaddress, PhysicalAddress gatewaymacaddress, string interfacefriendlyname)
         {
-            disengageflag = true;
             engagedclientlist = new Dictionary<IPAddress, PhysicalAddress>();
             capturedevice = (from devicex in CaptureDeviceList.Instance where ((SharpPcap.WinPcap.WinPcapDevice)devicex).Interface.FriendlyName == interfacefriendlyname select devicex).ToList()[0];
 
@@ -32,6 +32,7 @@ namespace CSArp
                 new Thread(() =>
                 {
                     disengageflag = false;
+                    Debug.Print("Spoofing target {0} @ {1}", target.Value.ToString(), target.Key.ToString());
                     while (!disengageflag)
                     {
                         try
@@ -40,9 +41,10 @@ namespace CSArp
                         }
                         catch(PcapException ex)
                         {
-
+                            Debug.Print("PcapException @ DisconnectReconnect.Disconnect()\n" + ex.Message);
                         }
                     }
+                    Debug.Print("Spoofing thread @ DisconnectReconnect.Disconnect() for {0} @ {1} is terminating.",target.Value.ToString(),target.Key.ToString());
                 }).Start();
                 engagedclientlist.Add(target.Key, target.Value);
             };
@@ -51,7 +53,8 @@ namespace CSArp
         public static void Reconnect()
         {
             disengageflag = true;
-            engagedclientlist.Clear();
+            if(engagedclientlist!=null)
+                engagedclientlist.Clear();
         }
 
 

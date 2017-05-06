@@ -12,5 +12,8 @@ namespace CSArp
         ListView ListView1 { get; }
         ToolStripStatusLabel ToolStripStatus { get; }
         ToolStripComboBox ToolStripComboBoxDeviceList { get; }
+        Form MainForm { get; }
+        NotifyIcon NotifyIcon1 { get; }
+        ToolStripTextBox ToolStripTextBoxClientName { get; }
     }
 }

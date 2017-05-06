@@ -28,13 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSaveSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemMinimize = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemChooseInterface = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxDevicelist = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ClientNametoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBoxClientName = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cutoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemRefreshClients = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutCSArpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -44,10 +56,8 @@
             this.columnHeaderIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderMAC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCutoffStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cutoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.columnHeaderClientname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -67,40 +77,130 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemChooseInterface,
-            this.toolStripMenuItemRefreshClients,
+            this.toolStripMenuItemSaveSettings,
+            this.toolStripSeparator4,
+            this.toolStripMenuItemMinimize,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // toolStripMenuItemSaveSettings
+            // 
+            this.toolStripMenuItemSaveSettings.Name = "toolStripMenuItemSaveSettings";
+            this.toolStripMenuItemSaveSettings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemSaveSettings.Size = new System.Drawing.Size(164, 22);
+            this.toolStripMenuItemSaveSettings.Text = "Save";
+            this.toolStripMenuItemSaveSettings.ToolTipText = "Save current settings";
+            this.toolStripMenuItemSaveSettings.Click += new System.EventHandler(this.toolStripMenuItemSaveSettings_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(161, 6);
+            // 
+            // toolStripMenuItemMinimize
+            // 
+            this.toolStripMenuItemMinimize.Name = "toolStripMenuItemMinimize";
+            this.toolStripMenuItemMinimize.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.toolStripMenuItemMinimize.Size = new System.Drawing.Size(164, 22);
+            this.toolStripMenuItemMinimize.Text = "Minimize";
+            this.toolStripMenuItemMinimize.ToolTipText = "Minimize to tray";
+            this.toolStripMenuItemMinimize.Click += new System.EventHandler(this.toolStripMenuItemMinimize_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemChooseInterface,
+            this.toolStripSeparator3,
+            this.ClientNametoolStripMenuItem,
+            this.toolStripSeparator1,
+            this.cutoffToolStripMenuItem,
+            this.reconnectToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.toolStripMenuItemRefreshClients});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
             // 
             // toolStripMenuItemChooseInterface
             // 
             this.toolStripMenuItemChooseInterface.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripComboBoxDevicelist});
             this.toolStripMenuItemChooseInterface.Name = "toolStripMenuItemChooseInterface";
-            this.toolStripMenuItemChooseInterface.Size = new System.Drawing.Size(163, 22);
+            this.toolStripMenuItemChooseInterface.Size = new System.Drawing.Size(174, 22);
             this.toolStripMenuItemChooseInterface.Text = "Choose interface";
+            this.toolStripMenuItemChooseInterface.ToolTipText = "Select the network card to operate on";
             // 
             // toolStripComboBoxDevicelist
             // 
-            this.toolStripComboBoxDevicelist.DropDownWidth = 200;
             this.toolStripComboBoxDevicelist.Name = "toolStripComboBoxDevicelist";
             this.toolStripComboBoxDevicelist.Size = new System.Drawing.Size(121, 23);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(171, 6);
+            // 
+            // ClientNametoolStripMenuItem
+            // 
+            this.ClientNametoolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBoxClientName});
+            this.ClientNametoolStripMenuItem.Name = "ClientNametoolStripMenuItem";
+            this.ClientNametoolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.ClientNametoolStripMenuItem.Text = "Enter Client Name";
+            this.ClientNametoolStripMenuItem.ToolTipText = "Enter a name for the selected client";
+            // 
+            // toolStripTextBoxClientName
+            // 
+            this.toolStripTextBoxClientName.Name = "toolStripTextBoxClientName";
+            this.toolStripTextBoxClientName.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBoxClientName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBoxClientName_KeyUp);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(171, 6);
+            // 
+            // cutoffToolStripMenuItem
+            // 
+            this.cutoffToolStripMenuItem.Name = "cutoffToolStripMenuItem";
+            this.cutoffToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutoffToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.cutoffToolStripMenuItem.Text = "Disconnect";
+            this.cutoffToolStripMenuItem.ToolTipText = "Disconnect selected clients";
+            this.cutoffToolStripMenuItem.Click += new System.EventHandler(this.cutoffToolStripMenuItem_Click);
+            // 
+            // reconnectToolStripMenuItem
+            // 
+            this.reconnectToolStripMenuItem.Name = "reconnectToolStripMenuItem";
+            this.reconnectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.reconnectToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.reconnectToolStripMenuItem.Text = "Stop";
+            this.reconnectToolStripMenuItem.ToolTipText = "Stop arp spoofing";
+            this.reconnectToolStripMenuItem.Click += new System.EventHandler(this.reconnectToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
             // 
             // toolStripMenuItemRefreshClients
             // 
             this.toolStripMenuItemRefreshClients.Name = "toolStripMenuItemRefreshClients";
-            this.toolStripMenuItemRefreshClients.Size = new System.Drawing.Size(163, 22);
+            this.toolStripMenuItemRefreshClients.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.toolStripMenuItemRefreshClients.Size = new System.Drawing.Size(174, 22);
             this.toolStripMenuItemRefreshClients.Text = "Refresh";
+            this.toolStripMenuItemRefreshClients.ToolTipText = "Refresh active client list";
             this.toolStripMenuItemRefreshClients.Click += new System.EventHandler(this.toolStripMenuItemRefreshClients_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -113,7 +213,7 @@
             // aboutCSArpToolStripMenuItem
             // 
             this.aboutCSArpToolStripMenuItem.Name = "aboutCSArpToolStripMenuItem";
-            this.aboutCSArpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutCSArpToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.aboutCSArpToolStripMenuItem.Text = "About CSArp";
             this.aboutCSArpToolStripMenuItem.Click += new System.EventHandler(this.aboutCSArpToolStripMenuItem_Click);
             // 
@@ -142,7 +242,8 @@
             this.columnHeaderSN,
             this.columnHeaderIP,
             this.columnHeaderMAC,
-            this.columnHeaderCutoffStatus});
+            this.columnHeaderCutoffStatus,
+            this.columnHeaderClientname});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(12, 27);
@@ -161,46 +262,27 @@
             // columnHeaderIP
             // 
             this.columnHeaderIP.Text = "IP Address";
-            this.columnHeaderIP.Width = 200;
+            this.columnHeaderIP.Width = 131;
             // 
             // columnHeaderMAC
             // 
             this.columnHeaderMAC.Text = "MAC Address";
-            this.columnHeaderMAC.Width = 200;
+            this.columnHeaderMAC.Width = 151;
             // 
             // columnHeaderCutoffStatus
             // 
             this.columnHeaderCutoffStatus.Text = "Status";
-            this.columnHeaderCutoffStatus.Width = 50;
+            this.columnHeaderCutoffStatus.Width = 55;
             // 
-            // editToolStripMenuItem
+            // columnHeaderClientname
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSeparator1,
-            this.cutoffToolStripMenuItem,
-            this.reconnectToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.columnHeaderClientname.Text = "Client Name";
+            this.columnHeaderClientname.Width = 151;
             // 
-            // cutoffToolStripMenuItem
+            // notifyIcon1
             // 
-            this.cutoffToolStripMenuItem.Name = "cutoffToolStripMenuItem";
-            this.cutoffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.cutoffToolStripMenuItem.Text = "Disconnect";
-            this.cutoffToolStripMenuItem.Click += new System.EventHandler(this.cutoffToolStripMenuItem_Click);
-            // 
-            // reconnectToolStripMenuItem
-            // 
-            this.reconnectToolStripMenuItem.Name = "reconnectToolStripMenuItem";
-            this.reconnectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.reconnectToolStripMenuItem.Text = "Reconnect";
-            this.reconnectToolStripMenuItem.Click += new System.EventHandler(this.reconnectToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.notifyIcon1.Text = "CSArp";
+            this.notifyIcon1.Visible = true;
             // 
             // Form1
             // 
@@ -216,6 +298,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CSArp";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -235,17 +318,26 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus;
         private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRefreshClients;
         private System.Windows.Forms.ColumnHeader columnHeaderSN;
         private System.Windows.Forms.ColumnHeader columnHeaderIP;
         private System.Windows.Forms.ColumnHeader columnHeaderMAC;
         private System.Windows.Forms.ColumnHeader columnHeaderCutoffStatus;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemChooseInterface;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxDevicelist;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cutoffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reconnectToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ColumnHeader columnHeaderClientname;
+        private System.Windows.Forms.ToolStripMenuItem ClientNametoolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxClientName;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveSettings;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemChooseInterface;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxDevicelist;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMinimize;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRefreshClients;
     }
 }
 

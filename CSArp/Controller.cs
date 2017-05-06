@@ -1,11 +1,11 @@
 ﻿/*
- * CSArp
+ * CSArp 1.1
  * An arpspoofing program
  * Author : globalpolicy
  * Contact : yciloplabolg@gmail.com
  * Blog : c0dew0rth.blogspot.com
  * Github : globalpolicy
- * Time : May 6, 2017 @ 08:28AM
+ * Time : May 6, 2017 @ 05:30PM
  */
 
 using System;
@@ -21,6 +21,7 @@ using SharpPcap.LibPcap;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection;
 
 namespace CSArp
 {
@@ -67,7 +68,9 @@ namespace CSArp
         {
             if (_view.ToolStripComboBoxDeviceList.Text != "")
             {
-                GetClientList.GetAllClients_TEST(_view, _view.ToolStripComboBoxDeviceList.Text);
+                DisconnectReconnect.Reconnect(); //first disengage spoofing threads
+                _view.ToolStripStatus.Text = "Ready";
+                GetClientList.GetAllClients(_view, _view.ToolStripComboBoxDeviceList.Text);
             }
             else
             {
@@ -87,11 +90,12 @@ namespace CSArp
                 foreach (ListViewItem listitem in _view.ListView1.SelectedItems)
                 {
                     targetlist.Add(IPAddress.Parse(listitem.SubItems[1].Text), PhysicalAddress.Parse(listitem.SubItems[2].Text.Replace(":", "-")));
-                    _view.ListView1.BeginInvoke(new Action(() =>
+                    _view.MainForm.BeginInvoke(new Action(() =>
                     {
                         _view.ListView1.SelectedItems[parseindex++].SubItems[3].Text = "Off";
+                        _view.ToolStripStatus.Text = "Arpspoofing active...";
                     }));
-                    Debug.Print(listitem.SubItems[1].Text + "@" + listitem.SubItems[2].Text);
+                    //Debug.Print(listitem.SubItems[1].Text + "@" + listitem.SubItems[2].Text);
                 }
                 DisconnectReconnect.Disconnect(targetlist, GetGatewayIP(_view.ToolStripComboBoxDeviceList.Text), GetGatewayMAC(_view.ToolStripComboBoxDeviceList.Text), _view.ToolStripComboBoxDeviceList.Text);
 
@@ -101,10 +105,22 @@ namespace CSArp
         /// <summary>
         /// Reconnects clients by stopping fake ARP requests
         /// </summary>
-        public void ReconnectClients()
+        public void ReconnectClients() //selective reconnection not availabe at this time and frankly, not that useful
         {
             DisconnectReconnect.Reconnect();
-            this.RefreshClients();
+            foreach (ListViewItem entry in _view.ListView1.Items)
+            {
+                entry.SubItems[3].Text = "On";
+            }
+            _view.ToolStripStatus.Text = "Stopped";
+        }
+
+        /// <summary>
+        /// Sets the text of interface list combobox to saved value if present
+        /// </summary>
+        public void SetSavedInterface()
+        {
+            _view.ToolStripComboBoxDeviceList.Text = ApplicationSettingsClass.GetSavedPreferredInterfaceFriendlyName();
         }
 
         #region Trivial GUI elements control methods
@@ -115,6 +131,44 @@ namespace CSArp
         public void EndApplication()
         {
             Application.Exit();
+        }
+        public void FormResized(object sender, EventArgs e)
+        {
+            if (_view.MainForm.WindowState == FormWindowState.Minimized)
+            {
+                _view.NotifyIcon1.Visible = true;
+                _view.MainForm.Hide();
+            }
+        }
+        public void InitializeNotifyIcon()
+        {
+            _view.NotifyIcon1.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
+            _view.NotifyIcon1.MouseClick += (object sender, MouseEventArgs e) =>
+            {
+                _view.NotifyIcon1.Visible = false;
+                _view.MainForm.Show();
+                _view.MainForm.WindowState = FormWindowState.Normal;
+            };
+        }
+        public void ToolStripTextBoxClientNameKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (_view.ListView1.SelectedItems.Count == 1)
+                {
+                    _view.ListView1.SelectedItems[0].SubItems[4].Text = _view.ToolStripTextBoxClientName.Text;
+                    _view.ToolStripTextBoxClientName.Text = "";
+                }
+            }
+        }
+        public void ToolStripMinimizeClicked()
+        {
+            _view.MainForm.WindowState = FormWindowState.Minimized;
+        }
+        public void ToolStripSaveClicked()
+        {
+            if (ApplicationSettingsClass.SaveSettings(_view.ListView1, _view.ToolStripComboBoxDeviceList.Text))
+                _view.ToolStripStatus.Text = "Settings saved!";
         }
         #endregion
 

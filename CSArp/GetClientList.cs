@@ -12,6 +12,7 @@ using PacketDotNet;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
+using System.IO;
 
 /*
  Reference:
@@ -30,36 +31,51 @@ namespace CSArp
         /// </summary>
         /// <param name="view"></param>
         /// <param name="interfacefriendlyname"></param>
-        public static void GetAllClients_TEST(IView view, string interfacefriendlyname)
+        public static void GetAllClients(IView view, string interfacefriendlyname)
         {
             #region initialization of variables
-            Dictionary<IPAddress, PhysicalAddress> clientlist = new Dictionary<IPAddress, PhysicalAddress>();
+            Dictionary<IPAddress, PhysicalAddress> clientlist = new Dictionary<IPAddress, PhysicalAddress>(); //this is exclusively for preventing redundant entries into listview
             if (capturedevice != null)
             {
-                capturedevice.StopCapture(); //stop previous capture
-                capturedevice.Close(); //close previous instances
+                try
+                {
+                    capturedevice.StopCapture(); //stop previous capture
+                    capturedevice.Close(); //close previous instances
+                }
+                catch (PcapException ex)
+                {
+                    Debug.Print("Exception at GetAllClients while trying to capturedevice.StopCapture() or capturedevice.Close()\n" + ex.Message);
+                }
             }
             view.ListView1.Items.Clear();
             #endregion
 
             CaptureDeviceList capturedevicelist = CaptureDeviceList.Instance;
-            capturedevice = (from devicex in capturedevicelist where ((SharpPcap.WinPcap.WinPcapDevice)devicex).Interface.FriendlyName==interfacefriendlyname select devicex).ToList()[0] ;
+            capturedevice = (from devicex in capturedevicelist where ((SharpPcap.WinPcap.WinPcapDevice)devicex).Interface.FriendlyName == interfacefriendlyname select devicex).ToList()[0];
             capturedevice.Open(DeviceMode.Promiscuous, 1000);
 
             int ipindex = 1;
-           new Thread(() =>
-            {
-                for (ipindex = 1; ipindex <= 255; ipindex++)
-                {
-                    IPAddress myipaddress = ((SharpPcap.WinPcap.WinPcapDevice)capturedevice).Addresses[1].Addr.ipAddress; //possible critical point : Addresses[1] in hardcoding the index for obtaining ipv4 address
-                    ARPPacket arprequestpacket = new ARPPacket(ARPOperation.Request, PhysicalAddress.Parse("00-00-00-00-00-00"), IPAddress.Parse(GetRootIp(myipaddress) + ipindex), capturedevice.MacAddress, myipaddress);
-                    EthernetPacket ethernetpacket = new EthernetPacket(capturedevice.MacAddress, PhysicalAddress.Parse("FF-FF-FF-FF-FF-FF"), EthernetPacketType.Arp);
-                    ethernetpacket.PayloadPacket = arprequestpacket;
-                    capturedevice.SendPacket(ethernetpacket);
-                }
-            }).Start();
-            
-            
+            new Thread(() =>
+             {
+                 for (ipindex = 1; ipindex <= 255; ipindex++)
+                 {
+                     try
+                     {
+                         IPAddress myipaddress = ((SharpPcap.WinPcap.WinPcapDevice)capturedevice).Addresses[1].Addr.ipAddress; //possible critical point : Addresses[1] in hardcoding the index for obtaining ipv4 address
+                         ARPPacket arprequestpacket = new ARPPacket(ARPOperation.Request, PhysicalAddress.Parse("00-00-00-00-00-00"), IPAddress.Parse(GetRootIp(myipaddress) + ipindex), capturedevice.MacAddress, myipaddress);
+                         EthernetPacket ethernetpacket = new EthernetPacket(capturedevice.MacAddress, PhysicalAddress.Parse("FF-FF-FF-FF-FF-FF"), EthernetPacketType.Arp);
+                         ethernetpacket.PayloadPacket = arprequestpacket;
+                         capturedevice.SendPacket(ethernetpacket);
+                     }
+                     catch(Exception ex)
+                     {
+                         Debug.Print("Exception at GetClientList.GetAllClients() inside new Thread(()=>{}) probably because of wrong interface choice.\n" + ex.Message);
+                     }
+                     
+                 }
+             }).Start();
+
+
             capturedevice.Filter = "arp";
             int clientindex = 0;
             capturedevice.OnPacketArrival += (object sender, CaptureEventArgs captureeventargs) =>
@@ -68,9 +84,11 @@ namespace CSArp
                   ARPPacket arppacket = (ARPPacket)packet.Extract(typeof(ARPPacket));
                   if (!clientlist.ContainsKey(arppacket.SenderProtocolAddress))
                   {
-                      view.ListView1.BeginInvoke(new Action(() => {
-                          view.ListView1.Items.Add(new ListViewItem(new string[] { (++clientindex).ToString(), arppacket.SenderProtocolAddress.ToString(), GetMACString(arppacket.SenderHardwareAddress), "On" }));
+                      view.ListView1.BeginInvoke(new Action(() =>
+                      {
+                          view.ListView1.Items.Add(new ListViewItem(new string[] { (++clientindex).ToString(), arppacket.SenderProtocolAddress.ToString(), GetMACString(arppacket.SenderHardwareAddress), "On", ApplicationSettingsClass.GetSavedClientNameFromMAC(GetMACString(arppacket.SenderHardwareAddress)) }));
                       }));
+                      //Can be useful for debugging:
                       //Debug.Print("{0} @ {1}", arppacket.SenderProtocolAddress, arppacket.SenderHardwareAddress);
                       clientlist.Add(arppacket.SenderProtocolAddress, arppacket.SenderHardwareAddress);
                   }
@@ -79,9 +97,9 @@ namespace CSArp
                       capturedevice.StopCapture(); //raises a ThreadAbortException to end the current thread
                       capturedevice.Close();
                   }
-                  
+                  //Can be useful for debugging:
                   //Debug.Print(packet.ToString()+"\n");
-                  
+
               };
             capturedevice.StartCapture();
         }
@@ -117,5 +135,7 @@ namespace CSArp
             string ipaddressstring = ipaddress.ToString();
             return ipaddressstring.Substring(0, ipaddressstring.LastIndexOf(".") + 1);
         }
+
+
     }
 }

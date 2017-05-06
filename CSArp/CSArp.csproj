@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSettingsClass.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="DisconnectReconnect.cs" />
     <Compile Include="Form1.cs">
@@ -94,10 +95,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cloud_-2-512.ico" />
     <None Include="FodyWeavers.xml" />
     <Content Include="icon.ico" />
-    <Content Include="toolur_com_compress_image_e8o_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.6\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.6\build\dotnet\Fody.targets')" />
