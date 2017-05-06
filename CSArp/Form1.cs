@@ -43,7 +43,27 @@ namespace CSArp
                 return toolStripComboBoxDevicelist;
             }
         }
-
+        public Form MainForm
+        {
+            get
+            {
+                return this;
+            }
+        }
+        public NotifyIcon NotifyIcon1
+        {
+            get
+            {
+                return notifyIcon1;
+            }
+        }
+        public ToolStripTextBox ToolStripTextBoxClientName
+        {
+            get
+            {
+                return toolStripTextBoxClientName;
+            }
+        }
         #endregion
 
         private void toolStripMenuItemRefreshClients_Click(object sender, EventArgs e)
@@ -64,6 +84,8 @@ namespace CSArp
         private void Form1_Load(object sender, EventArgs e)
         {
             _controller.PopulateInterfaces();
+            _controller.SetSavedInterface();
+            _controller.InitializeNotifyIcon();
         }
 
         private void cutoffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -76,6 +98,25 @@ namespace CSArp
             _controller.ReconnectClients();
         }
 
-        
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            _controller.FormResized(sender, e);
+        }
+
+        private void toolStripTextBoxClientName_KeyUp(object sender, KeyEventArgs e)
+        {
+            _controller.ToolStripTextBoxClientNameKeyUp(sender, e);
+        }
+
+        private void toolStripMenuItemMinimize_Click(object sender, EventArgs e)
+        {
+            _controller.ToolStripMinimizeClicked();
+        }
+
+        private void toolStripMenuItemSaveSettings_Click(object sender, EventArgs e)
+        {
+            _controller.ToolStripSaveClicked();
+        }
+
     }
 }
