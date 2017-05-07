@@ -15,5 +15,7 @@ namespace CSArp
         Form MainForm { get; }
         NotifyIcon NotifyIcon1 { get; }
         ToolStripTextBox ToolStripTextBoxClientName { get; }
+        ToolStripStatusLabel ToolStripStatusScan { get; }
+        ToolStripProgressBar ToolStripProgressBarScan { get; }
     }
 }

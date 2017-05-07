@@ -64,6 +64,20 @@ namespace CSArp
                 return toolStripTextBoxClientName;
             }
         }
+        public ToolStripStatusLabel ToolStripStatusScan
+        {
+            get
+            {
+                return toolStripStatusScan;
+            }
+        }
+        public ToolStripProgressBar ToolStripProgressBarScan
+        {
+            get
+            {
+                return toolStripProgressBarScan;
+            }
+        }
         #endregion
 
         private void toolStripMenuItemRefreshClients_Click(object sender, EventArgs e)
