@@ -22,7 +22,7 @@ namespace CSArp
         {
             engagedclientlist = new Dictionary<IPAddress, PhysicalAddress>();
             capturedevice = (from devicex in CaptureDeviceList.Instance where ((SharpPcap.WinPcap.WinPcapDevice)devicex).Interface.FriendlyName == interfacefriendlyname select devicex).ToList()[0];
-
+            capturedevice.Open();
             foreach (var target in targetlist)
             {
                 IPAddress myipaddress = ((SharpPcap.WinPcap.WinPcapDevice)capturedevice).Addresses[1].Addr.ipAddress; //possible critical point : Addresses[1] in hardcoding the index for obtaining ipv4 address

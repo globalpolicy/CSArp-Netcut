@@ -58,6 +58,9 @@
             this.columnHeaderCutoffStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderClientname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolStripStatusLabelSpringer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusScan = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarScan = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -220,7 +223,10 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatus});
+            this.toolStripStatus,
+            this.toolStripStatusLabelSpringer,
+            this.toolStripStatusScan,
+            this.toolStripProgressBarScan});
             this.statusStrip1.Location = new System.Drawing.Point(0, 238);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(570, 22);
@@ -229,6 +235,7 @@
             // 
             // toolStripStatus
             // 
+            this.toolStripStatus.Margin = new System.Windows.Forms.Padding(11, 3, 0, 2);
             this.toolStripStatus.Name = "toolStripStatus";
             this.toolStripStatus.Size = new System.Drawing.Size(39, 17);
             this.toolStripStatus.Text = "Ready";
@@ -284,6 +291,23 @@
             this.notifyIcon1.Text = "CSArp";
             this.notifyIcon1.Visible = true;
             // 
+            // toolStripStatusLabelSpringer
+            // 
+            this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
+            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(281, 17);
+            this.toolStripStatusLabelSpringer.Spring = true;
+            // 
+            // toolStripStatusScan
+            // 
+            this.toolStripStatusScan.Name = "toolStripStatusScan";
+            this.toolStripStatusScan.Size = new System.Drawing.Size(91, 17);
+            this.toolStripStatusScan.Text = "Refresh for scan";
+            // 
+            // toolStripProgressBarScan
+            // 
+            this.toolStripProgressBarScan.Name = "toolStripProgressBarScan";
+            this.toolStripProgressBarScan.Size = new System.Drawing.Size(100, 16);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,6 +362,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMinimize;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRefreshClients;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusScan;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarScan;
     }
 }
 

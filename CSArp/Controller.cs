@@ -1,11 +1,11 @@
 ﻿/*
- * CSArp 1.1
+ * CSArp 1.2
  * An arpspoofing program
  * Author : globalpolicy
  * Contact : yciloplabolg@gmail.com
  * Blog : c0dew0rth.blogspot.com
  * Github : globalpolicy
- * Time : May 6, 2017 @ 05:30PM
+ * Time : May 8, 2017 @ 12:45AM
  */
 
 using System;
@@ -66,11 +66,15 @@ namespace CSArp
         /// </summary>
         public void RefreshClients()
         {
-            if (_view.ToolStripComboBoxDeviceList.Text != "")
+            if (_view.ToolStripComboBoxDeviceList.Text != "") //if a network interface has been selected
             {
-                DisconnectReconnect.Reconnect(); //first disengage spoofing threads
-                _view.ToolStripStatus.Text = "Ready";
-                GetClientList.GetAllClients(_view, _view.ToolStripComboBoxDeviceList.Text);
+                if (_view.ToolStripStatusScan.Text.IndexOf("Scanning") == -1) //if a scan isn't active already
+                {
+                    DisconnectReconnect.Reconnect(); //first disengage spoofing threads
+                    _view.ToolStripStatus.Text = "Ready";
+                    GetClientList.GetAllClients(_view, _view.ToolStripComboBoxDeviceList.Text);
+                }
+
             }
             else
             {
