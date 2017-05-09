@@ -51,6 +51,11 @@
             this.aboutCSArpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelSpringer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusScan = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBarScan = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeaderSN = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -58,9 +63,10 @@
             this.columnHeaderCutoffStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderClientname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.toolStripStatusLabelSpringer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusScan = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBarScan = new System.Windows.Forms.ToolStripProgressBar();
+            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.saveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -226,19 +232,59 @@
             this.toolStripStatus,
             this.toolStripStatusLabelSpringer,
             this.toolStripStatusScan,
-            this.toolStripProgressBarScan});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 238);
+            this.toolStripProgressBarScan,
+            this.toolStripSplitButton1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 315);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(570, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(570, 24);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatus
             // 
+            this.toolStripStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
             this.toolStripStatus.Margin = new System.Windows.Forms.Padding(11, 3, 0, 2);
             this.toolStripStatus.Name = "toolStripStatus";
-            this.toolStripStatus.Size = new System.Drawing.Size(39, 17);
+            this.toolStripStatus.Size = new System.Drawing.Size(43, 19);
             this.toolStripStatus.Text = "Ready";
+            // 
+            // toolStripStatusLabelSpringer
+            // 
+            this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
+            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(230, 19);
+            this.toolStripStatusLabelSpringer.Spring = true;
+            // 
+            // toolStripStatusScan
+            // 
+            this.toolStripStatusScan.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.toolStripStatusScan.Name = "toolStripStatusScan";
+            this.toolStripStatusScan.Size = new System.Drawing.Size(95, 19);
+            this.toolStripStatusScan.Text = "Refresh for scan";
+            // 
+            // toolStripProgressBarScan
+            // 
+            this.toolStripProgressBarScan.Name = "toolStripProgressBarScan";
+            this.toolStripProgressBarScan.Size = new System.Drawing.Size(100, 18);
+            // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearStripMenuItem,
+            this.saveStripMenuItem,
+            this.showLogToolStripMenuItem});
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(43, 22);
+            this.toolStripSplitButton1.Text = "Log";
+            // 
+            // showLogToolStripMenuItem
+            // 
+            this.showLogToolStripMenuItem.CheckOnClick = true;
+            this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
+            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showLogToolStripMenuItem.Text = "Show log";
+            this.showLogToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.showLogToolStripMenuItem_CheckStateChanged);
             // 
             // listView1
             // 
@@ -256,7 +302,7 @@
             this.listView1.Location = new System.Drawing.Point(12, 27);
             this.listView1.Name = "listView1";
             this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(546, 208);
+            this.listView1.Size = new System.Drawing.Size(546, 285);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -291,28 +337,38 @@
             this.notifyIcon1.Text = "CSArp";
             this.notifyIcon1.Visible = true;
             // 
-            // toolStripStatusLabelSpringer
+            // richTextBoxLog
             // 
-            this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
-            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(281, 17);
-            this.toolStripStatusLabelSpringer.Spring = true;
+            this.richTextBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxLog.Location = new System.Drawing.Point(12, 227);
+            this.richTextBoxLog.Name = "richTextBoxLog";
+            this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.richTextBoxLog.Size = new System.Drawing.Size(547, 87);
+            this.richTextBoxLog.TabIndex = 3;
+            this.richTextBoxLog.Text = "";
+            this.richTextBoxLog.Visible = false;
             // 
-            // toolStripStatusScan
+            // saveStripMenuItem
             // 
-            this.toolStripStatusScan.Name = "toolStripStatusScan";
-            this.toolStripStatusScan.Size = new System.Drawing.Size(91, 17);
-            this.toolStripStatusScan.Text = "Refresh for scan";
+            this.saveStripMenuItem.Name = "saveStripMenuItem";
+            this.saveStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveStripMenuItem.Text = "Save";
+            this.saveStripMenuItem.Click += new System.EventHandler(this.saveStripMenuItem_Click);
             // 
-            // toolStripProgressBarScan
+            // clearStripMenuItem
             // 
-            this.toolStripProgressBarScan.Name = "toolStripProgressBarScan";
-            this.toolStripProgressBarScan.Size = new System.Drawing.Size(100, 16);
+            this.clearStripMenuItem.Name = "clearStripMenuItem";
+            this.clearStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearStripMenuItem.Text = "Clear";
+            this.clearStripMenuItem.Click += new System.EventHandler(this.clearStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(570, 260);
+            this.ClientSize = new System.Drawing.Size(570, 339);
+            this.Controls.Add(this.richTextBoxLog);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -365,6 +421,12 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpringer;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusScan;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBarScan;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox richTextBoxLog;
+        private System.Windows.Forms.ToolStripMenuItem saveStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

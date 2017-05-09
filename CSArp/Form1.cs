@@ -78,6 +78,27 @@ namespace CSArp
                 return toolStripProgressBarScan;
             }
         }
+        public ToolStripMenuItem ShowLogToolStripMenuItem
+        {
+            get
+            {
+                return showLogToolStripMenuItem;
+            }
+        }
+        public RichTextBox LogRichTextBox
+        {
+            get
+            {
+                return richTextBoxLog;
+            }
+        }
+        public SaveFileDialog SaveFileDialogLog
+        {
+            get
+            {
+                return saveFileDialog1;
+            }
+        }
         #endregion
 
         private void toolStripMenuItemRefreshClients_Click(object sender, EventArgs e)
@@ -133,5 +154,19 @@ namespace CSArp
             _controller.ToolStripSaveClicked();
         }
 
+        private void showLogToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            _controller.ShowLogToolStripMenuItemChecked();
+        }
+
+        private void saveStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _controller.SaveLogShowDialogBox();
+        }
+
+        private void clearStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _controller.ClearLog();
+        }
     }
 }

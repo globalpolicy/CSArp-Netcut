@@ -1,11 +1,11 @@
 ﻿/*
- * CSArp 1.3
+ * CSArp 1.4
  * An arpspoofing program
  * Author : globalpolicy
  * Contact : yciloplabolg@gmail.com
  * Blog : c0dew0rth.blogspot.com
  * Github : globalpolicy
- * Time : May 9, 2017 @ 10:31AM
+ * Time : May 9, 2017 @ 09:07PM
  */
 
 using System;
@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.IO;
 
 namespace CSArp
 {
@@ -99,9 +100,8 @@ namespace CSArp
                         _view.ListView1.SelectedItems[parseindex++].SubItems[3].Text = "Off";
                         _view.ToolStripStatus.Text = "Arpspoofing active...";
                     }));
-                    //Debug.Print(listitem.SubItems[1].Text + "@" + listitem.SubItems[2].Text);
                 }
-                DisconnectReconnect.Disconnect(targetlist, GetGatewayIP(_view.ToolStripComboBoxDeviceList.Text), GetGatewayMAC(_view.ToolStripComboBoxDeviceList.Text), _view.ToolStripComboBoxDeviceList.Text);
+                DisconnectReconnect.Disconnect(_view, targetlist, GetGatewayIP(_view.ToolStripComboBoxDeviceList.Text), GetGatewayMAC(_view.ToolStripComboBoxDeviceList.Text), _view.ToolStripComboBoxDeviceList.Text);
 
             }
         }
@@ -126,6 +126,8 @@ namespace CSArp
         {
             _view.ToolStripComboBoxDeviceList.Text = ApplicationSettingsClass.GetSavedPreferredInterfaceFriendlyName();
         }
+
+
 
         #region Trivial GUI elements control methods
         public void ShowAboutBox()
@@ -177,6 +179,47 @@ namespace CSArp
         public void AttachOnExitEventHandler()
         {
             Application.ApplicationExit += (object sender, EventArgs e)=> GetClientList.CloseAllCaptures();
+        }
+        public void ShowLogToolStripMenuItemChecked()
+        {
+            if (_view.ShowLogToolStripMenuItem.Checked == false)
+            {
+                _view.LogRichTextBox.Visible = false;
+                _view.ListView1.Height = _view.MainForm.Height - 93;
+            }
+            else
+            {
+                _view.LogRichTextBox.Visible = true;
+                _view.ListView1.Height = _view.MainForm.Height - 184;
+            }
+        }
+        public void SaveLogShowDialogBox()
+        {
+            _view.SaveFileDialogLog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            _view.SaveFileDialogLog.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            _view.SaveFileDialogLog.FileName = "CSArp-log";
+            _view.SaveFileDialogLog.FileOk += (object sender, System.ComponentModel.CancelEventArgs e) =>
+            {
+                if(_view.SaveFileDialogLog.FileName!="" && !File.Exists(_view.SaveFileDialogLog.FileName))
+                {
+                    try
+                    {
+                        File.WriteAllText(_view.SaveFileDialogLog.FileName, _view.LogRichTextBox.Text);
+                        DebugOutputClass.Print(_view, "Log saved to " + _view.SaveFileDialogLog.FileName);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            };
+            _view.SaveFileDialogLog.ShowDialog();
+        }
+
+
+        public void ClearLog()
+        {
+            _view.LogRichTextBox.Text = "";
         }
         #endregion
 

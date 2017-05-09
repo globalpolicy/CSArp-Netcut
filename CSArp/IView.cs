@@ -17,5 +17,8 @@ namespace CSArp
         ToolStripTextBox ToolStripTextBoxClientName { get; }
         ToolStripStatusLabel ToolStripStatusScan { get; }
         ToolStripProgressBar ToolStripProgressBarScan { get; }
+        ToolStripMenuItem ShowLogToolStripMenuItem { get; }
+        RichTextBox LogRichTextBox { get; }
+        SaveFileDialog SaveFileDialogLog { get; }
     }
 }
