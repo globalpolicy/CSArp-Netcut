@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="ApplicationSettingsClass.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="DebugOutputClass.cs" />
     <Compile Include="DisconnectReconnect.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -24,3 +24,4 @@ C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.Properties.Resources.resourc
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.csproj.GenerateResource.Cache
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.exe
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.pdb
+C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.csprojResolveAssemblyReference.cache
