@@ -1,11 +1,11 @@
 ﻿/*
- * CSArp 1.2
+ * CSArp 1.3
  * An arpspoofing program
  * Author : globalpolicy
  * Contact : yciloplabolg@gmail.com
  * Blog : c0dew0rth.blogspot.com
  * Github : globalpolicy
- * Time : May 8, 2017 @ 12:45AM
+ * Time : May 9, 2017 @ 10:31AM
  */
 
 using System;
@@ -173,6 +173,10 @@ namespace CSArp
         {
             if (ApplicationSettingsClass.SaveSettings(_view.ListView1, _view.ToolStripComboBoxDeviceList.Text))
                 _view.ToolStripStatus.Text = "Settings saved!";
+        }
+        public void AttachOnExitEventHandler()
+        {
+            Application.ApplicationExit += (object sender, EventArgs e)=> GetClientList.CloseAllCaptures();
         }
         #endregion
 

@@ -19,7 +19,6 @@ C:\Users\s0ft\Desktop\CSArp\CSArp\bin\Release\SharpPcap.dll
 C:\Users\s0ft\Desktop\CSArp\CSArp\bin\Release\PacketDotNet.xml
 C:\Users\s0ft\Desktop\CSArp\CSArp\bin\Release\SharpPcap.xml
 C:\Users\s0ft\Desktop\CSArp\CSArp\bin\Release\SharpPcap.dll.config
-C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.csprojResolveAssemblyReference.cache
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.Form1.resources
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.Properties.Resources.resources
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.csproj.GenerateResource.Cache

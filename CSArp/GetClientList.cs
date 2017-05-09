@@ -25,6 +25,7 @@ namespace CSArp
     public static class GetClientList
     {
         private static ICaptureDevice capturedevice;
+        private static Dictionary<IPAddress, PhysicalAddress> clientlist;
 
         /// <summary>
         /// Populates listview with machines connected to the LAN
@@ -36,7 +37,7 @@ namespace CSArp
             #region initialization
             view.MainForm.BeginInvoke(new Action(() => view.ToolStripStatusScan.Text = "Scanning..."));
             view.MainForm.BeginInvoke(new Action(() => view.ToolStripProgressBarScan.Value = 0));
-            Dictionary<IPAddress, PhysicalAddress> clientlist = new Dictionary<IPAddress, PhysicalAddress>(); //this is exclusively for preventing redundant entries into listview
+            clientlist = new Dictionary<IPAddress, PhysicalAddress>(); //this is preventing redundant entries into listview and for counting total clients
             if (capturedevice != null)
             {
                 try
@@ -55,7 +56,7 @@ namespace CSArp
             CaptureDeviceList capturedevicelist = CaptureDeviceList.Instance;
             capturedevicelist.Refresh(); //crucial for reflection of any network changes
             capturedevice = (from devicex in capturedevicelist where ((SharpPcap.WinPcap.WinPcapDevice)devicex).Interface.FriendlyName == interfacefriendlyname select devicex).ToList()[0];
-            capturedevice.Open(DeviceMode.Promiscuous, 1000); //1000 milliseconds seems to be the accepted norm for timeout
+            capturedevice.Open(DeviceMode.Promiscuous, 1000); //open device with 1000ms timeout
             IPAddress myipaddress = ((SharpPcap.WinPcap.WinPcapDevice)capturedevice).Addresses[1].Addr.ipAddress; //possible critical point : Addresses[1] in hardcoding the index for obtaining ipv4 address
 
             #region Sending ARP requests to probe for all possible IP addresses on LAN
@@ -109,9 +110,9 @@ namespace CSArp
                         //Debug.Print(packet.ToString() + "\n");
                     }
                     stopwatch.Stop();
-                    capturedevice.StopCapture();
-                    view.MainForm.BeginInvoke(new Action(() => view.ToolStripStatusScan.Text = clientindex + " devices found"));
+                    view.MainForm.BeginInvoke(new Action(() => view.ToolStripStatusScan.Text = clientindex + " devices found")); 
                     view.MainForm.BeginInvoke(new Action(() => view.ToolStripProgressBarScan.Value = 100));
+                    PassiveScanStart(capturedevice, view, interfacefriendlyname); //start passive monitoring
                 }
                 catch (PcapException ex)
                 {
@@ -119,13 +120,58 @@ namespace CSArp
                     view.MainForm.BeginInvoke(new Action(() => view.ToolStripStatusScan.Text = "Refresh for scan"));
                     view.MainForm.BeginInvoke(new Action(() => view.ToolStripProgressBarScan.Value = 0));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.Print(ex.Message);
                 }
 
             }).Start();
             #endregion
+        }
+
+        /// <summary>
+        /// Passively monitor ARP packets for signs of new clients after GetAllClients active scan is done
+        /// </summary>
+        /// <param name="capturedevicepassive"></param>
+        /// <param name="view"></param>
+        /// <param name="interfacefriendlyname"></param>
+        public static void PassiveScanStart(ICaptureDevice capturedevicepassive, IView view, string interfacefriendlyname)
+        {
+            try
+            {
+                IPAddress myipaddress = ((SharpPcap.WinPcap.WinPcapDevice)capturedevicepassive).Addresses[1].Addr.ipAddress; //possible critical point : Addresses[1] in hardcoding the index for obtaining ipv4 address
+                capturedevicepassive.OnPacketArrival += (object sender, CaptureEventArgs e) =>
+                {
+                    Packet packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+                    ARPPacket arppacket = (ARPPacket)packet.Extract(typeof(ARPPacket));
+                    if (!clientlist.ContainsKey(arppacket.SenderProtocolAddress) && arppacket.SenderProtocolAddress.ToString() != "0.0.0.0" && areCompatibleIPs(arppacket.SenderProtocolAddress, myipaddress))
+                    {
+                        Debug.Print("Added from passive scan!");
+                        clientlist.Add(arppacket.SenderProtocolAddress, arppacket.SenderHardwareAddress);
+                        view.ListView1.BeginInvoke(new Action(() => view.ListView1.Items.Add(new ListViewItem(new string[] { (clientlist.Count).ToString(), arppacket.SenderProtocolAddress.ToString(), GetMACString(arppacket.SenderHardwareAddress), "On", ApplicationSettingsClass.GetSavedClientNameFromMAC(GetMACString(arppacket.SenderHardwareAddress)) }))));
+                        view.MainForm.BeginInvoke(new Action(() => view.ToolStripStatusScan.Text = clientlist.Count + " devices found"));
+                    }
+                };
+                capturedevicepassive.StartCapture();
+            }
+            catch (Exception ex)
+            {
+                Debug.Print("Exception at GetClientList.PassiveScanStart()\n" + ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// Stops any ongoing capture and closes capturedevice if open
+        /// </summary>
+        public static void CloseAllCaptures()
+        {
+            try
+            {
+                capturedevice.StopCapture();
+                capturedevice.Close();
+            }
+            catch { }
         }
 
         /// <summary>

@@ -97,6 +97,7 @@ namespace CSArp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            _controller.AttachOnExitEventHandler();
             _controller.PopulateInterfaces();
             _controller.SetSavedInterface();
             _controller.InitializeNotifyIcon();

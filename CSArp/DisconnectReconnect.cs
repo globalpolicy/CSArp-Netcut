@@ -57,8 +57,6 @@ namespace CSArp
                 engagedclientlist.Clear();
         }
 
-
-
     }
 
 }
