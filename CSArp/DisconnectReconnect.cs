@@ -18,7 +18,7 @@ namespace CSArp
         private static bool disengageflag = true;
         private static ICaptureDevice capturedevice;
 
-        public static void Disconnect(Dictionary<IPAddress, PhysicalAddress> targetlist, IPAddress gatewayipaddress, PhysicalAddress gatewaymacaddress, string interfacefriendlyname)
+        public static void Disconnect(IView view, Dictionary<IPAddress, PhysicalAddress> targetlist, IPAddress gatewayipaddress, PhysicalAddress gatewaymacaddress, string interfacefriendlyname)
         {
             engagedclientlist = new Dictionary<IPAddress, PhysicalAddress>();
             capturedevice = (from devicex in CaptureDeviceList.Instance where ((SharpPcap.WinPcap.WinPcapDevice)devicex).Interface.FriendlyName == interfacefriendlyname select devicex).ToList()[0];
@@ -32,19 +32,19 @@ namespace CSArp
                 new Thread(() =>
                 {
                     disengageflag = false;
-                    Debug.Print("Spoofing target {0} @ {1}", target.Value.ToString(), target.Key.ToString());
-                    while (!disengageflag)
+                    DebugOutputClass.Print(view, "Spoofing target " + target.Value.ToString() + " @ " + target.Key.ToString());
+                    try
                     {
-                        try
+                        while (!disengageflag)
                         {
                             capturedevice.SendPacket(ethernetpacketforgatewayrequest);
                         }
-                        catch(PcapException ex)
-                        {
-                            Debug.Print("PcapException @ DisconnectReconnect.Disconnect()\n" + ex.Message);
-                        }
                     }
-                    Debug.Print("Spoofing thread @ DisconnectReconnect.Disconnect() for {0} @ {1} is terminating.",target.Value.ToString(),target.Key.ToString());
+                    catch (PcapException ex)
+                    {
+                        DebugOutputClass.Print(view, "PcapException @ DisconnectReconnect.Disconnect() [" + ex.Message + "]");
+                    }
+                    DebugOutputClass.Print(view, "Spoofing thread @ DisconnectReconnect.Disconnect() for " + target.Value.ToString() + " @ " + target.Key.ToString() + " is terminating.");
                 }).Start();
                 engagedclientlist.Add(target.Key, target.Value);
             };
@@ -53,7 +53,7 @@ namespace CSArp
         public static void Reconnect()
         {
             disengageflag = true;
-            if(engagedclientlist!=null)
+            if (engagedclientlist != null)
                 engagedclientlist.Clear();
         }
 
