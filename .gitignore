@@ -45,12 +45,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-/CSArp/bin/Debug
-/CSArp/obj/Debug/CSArp.Properties.Resources.resources
-/CSArp/obj/Debug/CSArp.pdb
-/CSArp/obj/Debug/CSArp.Form1.resources
-/CSArp/obj/Debug/CSArp.exe
-/CSArp/obj/Debug/CSArp.csprojResolveAssemblyReference.cache
-/CSArp/obj/Debug/CSArp.csproj.GenerateResource.Cache
-/CSArp/obj/Debug/CSArp.csproj.FileListAbsolute.txt
-/.vs/CSArp/v14/.suo

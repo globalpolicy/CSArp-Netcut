@@ -55,8 +55,6 @@
             this.toolStripStatusScan = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBarScan = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-            this.clearStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeaderSN = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -66,6 +64,8 @@
             this.columnHeaderClientname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.saveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -151,7 +151,6 @@
             // 
             // toolStripComboBoxDevicelist
             // 
-            this.toolStripComboBoxDevicelist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxDevicelist.Name = "toolStripComboBoxDevicelist";
             this.toolStripComboBoxDevicelist.Size = new System.Drawing.Size(121, 23);
             // 
@@ -252,7 +251,7 @@
             // toolStripStatusLabelSpringer
             // 
             this.toolStripStatusLabelSpringer.Name = "toolStripStatusLabelSpringer";
-            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(261, 19);
+            this.toolStripStatusLabelSpringer.Size = new System.Drawing.Size(230, 19);
             this.toolStripStatusLabelSpringer.Spring = true;
             // 
             // toolStripStatusScan
@@ -279,25 +278,11 @@
             this.toolStripSplitButton1.Size = new System.Drawing.Size(43, 22);
             this.toolStripSplitButton1.Text = "Log";
             // 
-            // clearStripMenuItem
-            // 
-            this.clearStripMenuItem.Name = "clearStripMenuItem";
-            this.clearStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.clearStripMenuItem.Text = "Clear";
-            this.clearStripMenuItem.Click += new System.EventHandler(this.clearStripMenuItem_Click);
-            // 
-            // saveStripMenuItem
-            // 
-            this.saveStripMenuItem.Name = "saveStripMenuItem";
-            this.saveStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveStripMenuItem.Text = "Save";
-            this.saveStripMenuItem.Click += new System.EventHandler(this.saveStripMenuItem_Click);
-            // 
             // showLogToolStripMenuItem
             // 
             this.showLogToolStripMenuItem.CheckOnClick = true;
             this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.showLogToolStripMenuItem.Text = "Show log";
             this.showLogToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.showLogToolStripMenuItem_CheckStateChanged);
             // 
@@ -321,7 +306,6 @@
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             // 
             // columnHeaderSN
             // 
@@ -364,6 +348,20 @@
             this.richTextBoxLog.TabIndex = 3;
             this.richTextBoxLog.Text = "";
             this.richTextBoxLog.Visible = false;
+            // 
+            // saveStripMenuItem
+            // 
+            this.saveStripMenuItem.Name = "saveStripMenuItem";
+            this.saveStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveStripMenuItem.Text = "Save";
+            this.saveStripMenuItem.Click += new System.EventHandler(this.saveStripMenuItem_Click);
+            // 
+            // clearStripMenuItem
+            // 
+            this.clearStripMenuItem.Name = "clearStripMenuItem";
+            this.clearStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.clearStripMenuItem.Text = "Clear";
+            this.clearStripMenuItem.Click += new System.EventHandler(this.clearStripMenuItem_Click);
             // 
             // Form1
             // 

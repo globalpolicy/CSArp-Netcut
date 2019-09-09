@@ -25,16 +25,3 @@ C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.csproj.GenerateResource.Cach
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.exe
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.pdb
 C:\Users\s0ft\Desktop\CSArp\CSArp\obj\Release\CSArp.csprojResolveAssemblyReference.cache
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\CSArp.exe.config
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\obj\Release\CSArp.exe
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\obj\Release\CSArp.pdb
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\CSArp.exe
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\CSArp.pdb
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\PacketDotNet.dll
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\SharpPcap.dll
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\PacketDotNet.xml
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\bin\Release\SharpPcap.xml
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\obj\Release\CSArp.csprojResolveAssemblyReference.cache
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\obj\Release\CSArp.Form1.resources
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\obj\Release\CSArp.Properties.Resources.resources
-C:\Users\AWAiS\Documents\Visual Studio 2015\Projects\CSArp-Netcut\CSArp\obj\Release\CSArp.csproj.GenerateResource.Cache
