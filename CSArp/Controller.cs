@@ -11,23 +11,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharpPcap;
 using SharpPcap.WinPcap;
 using SharpPcap.AirPcap;
+using SharpPcap.LibPcap;
+using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.IO;
 
-namespace CSArp {
-    public class Controller {
+namespace CSArp
+{
+    public class Controller
+    {
         #region fields
         private IView _view;
         #endregion
 
         #region constructor
-        public Controller(IView view) {
+        public Controller(IView view)
+        {
             _view = view;
         }
         #endregion
@@ -35,14 +42,19 @@ namespace CSArp {
         /// <summary>
         /// Populate the available network cards
         /// </summary>
-        public void PopulateInterfaces() {
+        public void PopulateInterfaces()
+        {
             CaptureDeviceList capturedevicelist = CaptureDeviceList.Instance;
             List<string> capturedevicelistofstring = new List<string>();
-            capturedevicelist.ToList().ForEach((ICaptureDevice capturedevice) => {
-                if (capturedevice is WinPcapDevice) {
+            capturedevicelist.ToList().ForEach((ICaptureDevice capturedevice) =>
+            {
+                if (capturedevice is WinPcapDevice)
+                {
                     WinPcapDevice winpcapdevice = (WinPcapDevice)capturedevice;
                     capturedevicelistofstring.Add(winpcapdevice.Interface.FriendlyName);
-                } else if (capturedevice is AirPcapDevice) {
+                }
+                else if (capturedevice is AirPcapDevice)
+                {
                     AirPcapDevice airpcapdevice = (AirPcapDevice)capturedevice;
                     capturedevicelistofstring.Add(airpcapdevice.Interface.FriendlyName);
                 }
@@ -53,7 +65,8 @@ namespace CSArp {
         /// <summary>
         /// Populate the LAN clients
         /// </summary>
-        public void RefreshClients() {
+        public void RefreshClients()
+        {
             if (_view.ToolStripComboBoxDeviceList.Text != "") //if a network interface has been selected
             {
                 if (_view.ToolStripStatusScan.Text.IndexOf("Scanning") == -1) //if a scan isn't active already
@@ -63,7 +76,9 @@ namespace CSArp {
                     GetClientList.GetAllClients(_view, _view.ToolStripComboBoxDeviceList.Text);
                 }
 
-            } else {
+            }
+            else
+            {
                 MessageBox.Show("Please select a network interface!", "Interface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
